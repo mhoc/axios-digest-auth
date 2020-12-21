@@ -26,7 +26,6 @@ export default class AxiosDigestAuth {
     try {
       return await this.axios.request(opts);
     } catch (resp1) {
-      console.log(resp1);
       if (resp1.response.status !== 401 || !resp1.response.headers["www-authenticate"]) {
         console.log(resp1.response);
         throw resp1;
