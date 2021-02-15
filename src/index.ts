@@ -34,8 +34,8 @@ export default class AxiosDigestAuth {
       ++this.count;
       const nonceCount = ('00000000' + this.count).slice(-8);
       const cnonce = crypto.randomBytes(24).toString('hex');
-      const realm = authDetails[0][1].replace(/"/g, '');
-      const nonce = authDetails[2][1].replace(/"/g, '');
+      const realm = authDetails.find(el => el[0].toLowerCase().indexOf("realm") > -1)[1].replace(/"/g, '');
+      const nonce = authDetails.find(el => el[0].toLowerCase().indexOf("nonce") > -1)[1].replace(/"/g, '');
       const ha1 = crypto.createHash('md5').update(`${this.username}:${realm}:${this.password}`).digest('hex');
       const path = url.parse(opts.url!).pathname;
       const ha2 = crypto.createHash('md5').update(`${opts.method ?? "GET"}:${path}`).digest('hex');
