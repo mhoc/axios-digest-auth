@@ -1,7 +1,7 @@
 {
   "name": "@mhoc/axios-digest-auth",
   "description": "http digest auth for axios",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "homepage": "https://github.com/mhoc/axios-digest-auth",
   "license": "MIT",
   "main": "./dist",
@@ -9,11 +9,11 @@
     "test": "tsc && mocha"
   },
   "dependencies": {
-    "axios": "^0.21.0"
+    "axios": "^0.21.1"
   },
   "devDependencies": {
-    "@types/node": "^14.14.14",
-    "mocha": "^8.2.1",
-    "typescript": "^4.1.3"
+    "@types/node": "^14.14.28",
+    "mocha": "^8.3.0",
+    "typescript": "^4.1.5"
   }
 }
