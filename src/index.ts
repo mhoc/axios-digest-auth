@@ -2,18 +2,27 @@ import * as crypto from "crypto";
 import * as url from "url";
 import * as axios from "axios";
 
+/**
+ * Options to configure the AxiosDigestAuth instance.
+ */
 export interface AxiosDigestAuthOpts {
+  /** 
+   * optionally provide your own axios instance. if this is not provided, one will be created for 
+   * you with default settings.
+   */
   axios?: axios.AxiosInstance;
+  /** the http digest auth password */
   password: string;
+  /** the http digest auth username */
   username: string;
 }
 
 export default class AxiosDigestAuth {
 
-  private axios: axios.AxiosInstance;
+  private readonly axios: axios.AxiosInstance;
   private count: number;
-  private password: string;
-  private username: string;
+  private readonly password: string;
+  private readonly username: string;
 
   constructor({ axios: axiosInst, password, username }: AxiosDigestAuthOpts) {
     this.axios = axiosInst ? axiosInst : axios.default;
@@ -27,7 +36,6 @@ export default class AxiosDigestAuth {
       return await this.axios.request(opts);
     } catch (resp1) {
       if (resp1.response.status !== 401 || !resp1.response.headers["www-authenticate"]) {
-        console.log(resp1.response);
         throw resp1;
       }
       const authDetails = resp1.response.headers['www-authenticate'].split(', ').map((v: string) => v.split('='));
