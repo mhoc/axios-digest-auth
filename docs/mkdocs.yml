@@ -1,0 +1,26 @@
+extra:
+  social:
+    - icon: fontawesome/solid/globe
+      link: https://hockerman.com
+      name: Mike Hockerman
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/MikeHockerman
+      name: Mike Hockerman on Twitter
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+repo_name: mhoc/axios-digest-auth
+repo_url: https://github.com/mhoc/axios-digest-auth
+plugins:
+  - search
+site_name: "axios-digest-auth"
+theme:
+  features:
+    - navigation.instant
+  icon:
+    repo: fontawesome/brands/github
+  name: material
+  palette:
+    accent: teal
+    primary: teal
+    scheme: slate
