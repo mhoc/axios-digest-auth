@@ -35,7 +35,10 @@ export default class AxiosDigestAuth {
     try {
       return await this.axios.request(opts);
     } catch (resp1) {
-      if (resp1.response === undefined || resp1.response.status !== 401 || !resp1.response.headers["www-authenticate"]) {
+      if (resp1.response === undefined
+          || resp1.response.status !== 401
+          || !resp1.response.headers["www-authenticate"]?.includes('nonce')
+      ) {
         throw resp1;
       }
       const authDetails = resp1.response.headers['www-authenticate'].split(', ').map((v: string) => v.split('='));
