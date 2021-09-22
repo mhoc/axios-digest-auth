@@ -41,7 +41,7 @@ export default class AxiosDigestAuth {
       ) {
         throw resp1;
       }
-      const authDetails = resp1.response.headers['www-authenticate'].split(', ').map((v: string) => v.split('='));
+      const authDetails = resp1.response.headers['www-authenticate'].split(',').map((v: string) => v.split('='));
       ++this.count;
       const nonceCount = ('00000000' + this.count).slice(-8);
       const cnonce = crypto.randomBytes(24).toString('hex');
