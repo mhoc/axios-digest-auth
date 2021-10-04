@@ -34,7 +34,7 @@ export default class AxiosDigestAuth {
   public async request(opts: axios.AxiosRequestConfig): Promise<axios.AxiosResponse> {
     try {
       return await this.axios.request(opts);
-    } catch (resp1) {
+    } catch (resp1: any) {
       if (resp1.response === undefined
           || resp1.response.status !== 401
           || !resp1.response.headers["www-authenticate"]?.includes('nonce')
