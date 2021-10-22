@@ -46,20 +46,12 @@ export default class AxiosDigestAuth {
         throw resp1;
       }
 
-      // const authDetails = resp1.response.headers['www-authenticate'].split(',').map((v: string) => v.split('='));
-
       const wwwAuthenticate = resp1.response.headers['www-authenticate'];
       const parsedAuthorization = authHeader.parse(wwwAuthenticate);
-
-
       ++this.count;
       const nonceCount = ('00000000' + this.count).slice(-8);
       const cnonce = crypto.randomBytes(24).toString('hex');
-
-      // const realm = authDetails.find((el: any) => el[0].toLowerCase().indexOf("realm") > -1)[1].replace(/"/g, '');
       const realm = parsedAuthorization.params['realm'];
-
-      // const nonce = authDetails.find((el: any) => el[0].toLowerCase().indexOf("nonce") > -1)[1].replace(/"/g, '');
       const nonce = parsedAuthorization.params['nonce'];
 
       const ha1 = crypto.createHash('md5').update(`${this.username}:${realm}:${this.password}`).digest('hex');
