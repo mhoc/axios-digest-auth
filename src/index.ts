@@ -21,6 +21,12 @@ export interface AxiosDigestAuthOpts {
   username: string;
 }
 
+function takeFirst(value: string|string[]): string {
+  if (value.constructor === Array)
+    return value[0];
+  return value as string;
+}
+
 export default class AxiosDigestAuth {
 
   private readonly axios: axios.AxiosInstance;
@@ -51,8 +57,8 @@ export default class AxiosDigestAuth {
       ++this.count;
       const nonceCount = ('00000000' + this.count).slice(-8);
       const cnonce = crypto.randomBytes(24).toString('hex');
-      const realm = parsedAuthorization.params['realm'];
-      const nonce = parsedAuthorization.params['nonce'];
+      const realm = takeFirst(parsedAuthorization.params['realm']);
+      const nonce = takeFirst(parsedAuthorization.params['nonce']);
 
       const ha1 = crypto.createHash('md5').update(`${this.username}:${realm}:${this.password}`).digest('hex');
       const path = url.parse(opts.url!).pathname;
@@ -71,7 +77,7 @@ export default class AxiosDigestAuth {
         cnonce,
       };
 
-      const paramsString = Object.entries(params).map(([key, value]) =>  `${key}=${value && quote(value as string)}`).join(', ');
+      const paramsString = Object.entries(params).map(([key, value]) =>  `${key}=${value && quote(value)}`).join(', ');
       const authorization = `Digest ${paramsString}`;
 
       if (opts.headers) {
