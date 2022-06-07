@@ -6,8 +6,8 @@ import * as axios from "axios";
  * Options to configure the AxiosDigestAuth instance.
  */
 export interface AxiosDigestAuthOpts {
-  /** 
-   * optionally provide your own axios instance. if this is not provided, one will be created for 
+  /**
+   * optionally provide your own axios instance. if this is not provided, one will be created for
    * you with default settings.
    */
   axios?: axios.AxiosInstance;
@@ -31,7 +31,7 @@ export default class AxiosDigestAuth {
     this.username = username;
   }
 
-  public async request(opts: axios.AxiosRequestConfig): Promise<axios.AxiosResponse> {
+  public async request<T = any>(opts: axios.AxiosRequestConfig<T>): Promise<axios.AxiosResponse<T>> {
     try {
       return await this.axios.request(opts);
     } catch (resp1: any) {
