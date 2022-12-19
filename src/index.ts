@@ -6,8 +6,8 @@ import * as axios from "axios";
  * Options to configure the AxiosDigestAuth instance.
  */
 export interface AxiosDigestAuthOpts {
-  /** 
-   * optionally provide your own axios instance. if this is not provided, one will be created for 
+  /**
+   * optionally provide your own axios instance. if this is not provided, one will be created for
    * you with default settings.
    */
   axios?: axios.AxiosInstance;
@@ -51,9 +51,17 @@ export default class AxiosDigestAuth {
       const path = url.parse(opts.url!).pathname;
       const ha2 = crypto.createHash('md5').update(`${opts.method ?? "GET"}:${path}`).digest('hex');
       const response = crypto.createHash('md5').update(`${ha1}:${nonce}:${nonceCount}:${cnonce}:auth:${ha2}`).digest('hex');
-      const authorization = `Digest username="${this.username}",realm="${realm}",` +
-        `nonce="${nonce}",uri="${path}",qop="auth",algorithm="MD5",` +
-        `response="${response}",nc="${nonceCount}",cnonce="${cnonce}"`;
+      var authorization = `Digest username="${this.username}",realm="${realm}",` +
+      `nonce="${nonce}",uri="${path}",qop="auth",algorithm="md5",` +
+      `response="${response}",nc="${nonceCount}",cnonce="${cnonce}"`;
+
+      const opaqueEntry = authDetails.find((el: any) => el[0].toLowerCase().indexOf("opaque") > -1);
+
+      if (opaqueEntry) {
+        const opaque = opaqueEntry[1].replace(/"/g, '');
+        authorization = `${authorization},opaque="${opaque}"`;
+      }
+
       if (opts.headers) {
         opts.headers["authorization"] = authorization;
       } else {
